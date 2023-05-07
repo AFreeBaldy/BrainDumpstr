@@ -1,15 +1,21 @@
 package com.capedbaldy.braindumpstr.errors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@ControllerAdvice
 @RestControllerAdvice
-public class DumpsterServiceErrorHandler extends ResponseEntityExceptionHandler {
+public class DumpsterServiceErrorHandler {
 
-    @ExceptionHandler(InvalidDumpIdException.class)
-    public ResponseEntity<?> handleInvaliddumpId(InvalidDumpIdException exception) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleInvalidDumpId(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
+    @ExceptionHandler(DumpDoesNotExistException.class)
+    public ResponseEntity<?> handleDumpIdDoesntExist(DumpDoesNotExistException exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }

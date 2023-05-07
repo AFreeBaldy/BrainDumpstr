@@ -2,6 +2,9 @@ package com.capedbaldy.braindumpstr.errors;
 
 import org.springframework.stereotype.Component;
 
-@Component
-public class InvalidDumpIdException extends RuntimeException {
+
+public class IllegalArgumentException extends RuntimeException {
+    public IllegalArgumentException(String message) {
+        super(message);
+    }
 }
