@@ -1,5 +1,6 @@
 package com.capedbaldy.braindumpstr.services.dumpsterservice;
 
+import com.capedbaldy.braindumpstr.errors.IncorrectFileFormat;
 import com.capedbaldy.braindumpstr.models.AudioFile;
 import com.capedbaldy.braindumpstr.models.Dump;
 import com.capedbaldy.braindumpstr.repositories.AudioRepository;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -92,19 +94,6 @@ public class CreateNewDumpTests {
         }).when(audioRepository).save(any());
     }
 
-    @Test
-    public void runs() {
-        // Arrange
-
-
-        // Act
-
-
-        // Assert
-
-
-    }
-
 
     @Test
     public void testCreateNewDump_ValidInputs_ShouldCallFileServiceToSaveFile_ShouldSaveInRepositories() throws IOException {
@@ -128,6 +117,20 @@ public class CreateNewDumpTests {
         assertThat(((String) dumpRepository.findById(dumpId).get().getContext())).isEqualTo(context);
         assertThat(dumps.get(dumpId.intValue() -1).getDumpId()).isEqualTo(dumpId);
     }
+
+    @Test
+    public void testCreateNewDump_InvalidInputs_WrongAudioFileFormat_ShouldThrowIllegalArgumentException() {
+        // Arrange
+        audioFile =
+                audioFile = new MockMultipartFile("file",
+                        "test-audio.mpz", "audio/mpeg", audioFileBytes);
+        String context = "My context";
+
+        // Act and Assert
+        assertThrows(IncorrectFileFormat.class, () -> dumpsterService.createNewDump(audioFile, context));
+
+     }
+
 
 
 }

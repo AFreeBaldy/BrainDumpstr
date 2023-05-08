@@ -1,5 +1,6 @@
 package com.capedbaldy.braindumpstr.controllers;
 
+import com.capedbaldy.braindumpstr.errors.IncorrectFileFormat;
 import com.capedbaldy.braindumpstr.services.DumpsterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

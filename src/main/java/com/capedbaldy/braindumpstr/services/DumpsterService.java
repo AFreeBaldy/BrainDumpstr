@@ -1,5 +1,6 @@
 package com.capedbaldy.braindumpstr.services;
 
+import com.capedbaldy.braindumpstr.errors.IncorrectFileFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,7 @@ public interface DumpsterService {
 
     void removeTagsFromDump(Long dumpId, Set<String> tags);
 
-    Long createNewDump(MultipartFile audioFile, String context);
+    Long createNewDump(MultipartFile audioFile, String context) throws IncorrectFileFormat;
 
     void reSummarize(Long dumpId, MultipartFile audioFile, String context);
 

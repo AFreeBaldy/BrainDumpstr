@@ -1,7 +1,7 @@
 package com.capedbaldy.braindumpstr.services.impl;
 
 import com.capedbaldy.braindumpstr.errors.DumpDoesNotExistException;
-import com.capedbaldy.braindumpstr.errors.IllegalArgumentException;
+import com.capedbaldy.braindumpstr.errors.IncorrectFileFormat;
 import com.capedbaldy.braindumpstr.models.AudioFile;
 import com.capedbaldy.braindumpstr.models.Dump;
 import com.capedbaldy.braindumpstr.models.Tag;
@@ -111,12 +111,18 @@ public class DumpsterServiceImpl implements DumpsterService {
         tagRepository.deleteAll(tagsWithTagsAsValue.stream().filter(t -> t.getDumps().size() == 0).collect(Collectors.toSet()));
     }
 
+
     /**
      * @param multipartFile
      * @param context
      */
     @Override
-    public Long createNewDump(MultipartFile multipartFile, String context) {
+    public Long createNewDump(MultipartFile multipartFile, String context) throws IncorrectFileFormat {
+        // Validate audio file
+        String[] expectedFileFormats = {"mp3"};
+        if (!fileIOService.isFileOfType(multipartFile, expectedFileFormats))
+            throw new IncorrectFileFormat(multipartFile, expectedFileFormats);
+
         AudioFile audioFile = AudioFile.builder()
                 .mimeType(multipartFile.getContentType())
                 .build();

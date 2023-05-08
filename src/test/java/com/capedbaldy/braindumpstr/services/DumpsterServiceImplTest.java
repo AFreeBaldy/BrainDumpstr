@@ -3,7 +3,6 @@ package com.capedbaldy.braindumpstr.services;
 
 import com.capedbaldy.braindumpstr.errors.DumpDoesNotExistException;
 import com.capedbaldy.braindumpstr.errors.DumpsterServiceErrorHandler;
-import com.capedbaldy.braindumpstr.errors.IllegalArgumentException;
 import com.capedbaldy.braindumpstr.models.Dump;
 import com.capedbaldy.braindumpstr.models.Tag;
 import com.capedbaldy.braindumpstr.repositories.DumpRepository;
